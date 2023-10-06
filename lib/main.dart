@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:iot_console/pages/Home_page.dart';
+import 'package:iot_console/Auth/singin.dart';
 import 'package:iot_console/providers/app_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
     
-        home: const Homepage(),
+        home:  SingIN(),
     
     
         theme: ThemeData(

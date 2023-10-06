@@ -2,15 +2,16 @@
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:iot_console/mock%20api/mock_api.dart';
+import 'package:iot_console/mock api/mock_api.dart';
 import 'package:iot_console/models/Status_model.dart';
 import 'package:iot_console/providers/app_provider.dart';
 import 'package:provider/provider.dart';
 
 class Status extends StatefulWidget {
    final Function(Map<String, dynamic> data)? onDataUpdated;
+   final _pageStorageKey = PageStorageKey('Status');
 
-  const Status({required this.onDataUpdated, Key? key}) : super(key: key);
+   Status({required this.onDataUpdated, Key? key}) : super(key: key);
   @override
   State<Status> createState() => _StatusState();
 }
@@ -25,7 +26,8 @@ class _StatusState extends State<Status> {
   bool isRefreshing = false;
   Map<String, dynamic> statusData = {}; 
 
-
+  
+  
   void handleRefresh() async {
     setState(() {
       isRefreshing = true;
@@ -139,6 +141,7 @@ class _StatusState extends State<Status> {
                                 Padding(
                                   padding: const EdgeInsets.all(16.0),
                                   child: Switch(
+                                    key: widget._pageStorageKey,
                                     value: isSwitched,
                                     onChanged: (value) {
                                       setState(() {
@@ -154,6 +157,7 @@ class _StatusState extends State<Status> {
                                     inactiveTrackColor: Colors.red,
                                     inactiveThumbColor: Colors.white,
                                   ),
+                                
                                 ),
                                 SizedBox(width: 70),
                                 Padding(

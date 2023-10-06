@@ -1,6 +1,10 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+
+import 'package:iot_console/providers/json.dart';
 
 class Power extends StatefulWidget {
   final void Function(Map<String, dynamic>)? onDataUpdated; // Add this line
@@ -12,9 +16,31 @@ class Power extends StatefulWidget {
 
 class _PowerState extends State<Power> {
 
-  
+  List<Photo> photos = [];
     bool isRefreshing = false;
 
+ @override
+  void initState() {
+    super.initState();
+    fetchData();
+  }
+
+  Future<void> fetchData() async {
+    final response = await http.get(Uri.parse('https://jsonplaceholder.typicode.com/photos'));
+
+    if (response.statusCode == 200) {
+      final List<dynamic> jsonList = json.decode(response.body);
+      photos = jsonList.map((json) => Photo.fromJson(json)).toList();
+      updateData();
+    } else {
+      throw Exception('Failed to load data');
+    }
+  }
+
+  void updateData() {
+    widget.onDataUpdated?.call({'photos': photos}); // Pass data to the parent widget
+    setState(() {}); // Trigger a UI update
+  }
 
 
    void handleRefresh() {
@@ -27,27 +53,27 @@ class _PowerState extends State<Power> {
       });
     });
   }
-  void updateData(Map<String, dynamic> data) {
-  // Update the data in the Power tab
-  // Extract the ON, OFF, duration, and total duration data from 'data' and update your UI accordingly.
-}
+//   void updateData(Map<String, dynamic> data) {
+//   // Update the data in the Power tab
+//   // Extract the ON, OFF, duration, and total duration data from 'data' and update your UI accordingly.
+// }
 
   @override
   Widget build(BuildContext context) {
-    var list = [
-         {'on':"01:02:13",'off':'04:48:54','duration':'03:43:04'},
-         {'on':"01:02:13",'off':'04:48:54','duration':'03:43:04'},
-         {'on':"01:02:13",'off':'04:48:54','duration':'03:43:04'},
-         {'on':"01:02:13",'off':'04:48:54','duration':'03:43:04'},
-         {'on':"01:02:13",'off':'04:48:54','duration':'03:43:04'},
-         {'on':"01:02:13",'off':'04:48:54','duration':'03:43:04'},
-         {'on':"01:02:13",'off':'04:48:54','duration':'03:43:04'},
-         {'on':"01:02:13",'off':'04:48:54','duration':'03:43:04'},
-         {'on':"01:02:13",'off':'04:48:54','duration':'03:43:04'},
-         {'on':"01:02:13",'off':'04:48:54','duration':'03:43:04'},
-         {'on':"01:02:13",'off':'04:48:54','duration':'03:43:04'},
+    // var list = [
+    //      {'on':"01:02:13",'off':'04:48:54','duration':'03:43:04'},
+    //      {'on':"01:02:13",'off':'04:48:54','duration':'03:43:04'},
+    //      {'on':"01:02:13",'off':'04:48:54','duration':'03:43:04'},
+    //      {'on':"01:02:13",'off':'04:48:54','duration':'03:43:04'},
+    //      {'on':"01:02:13",'off':'04:48:54','duration':'03:43:04'},
+    //      {'on':"01:02:13",'off':'04:48:54','duration':'03:43:04'},
+    //      {'on':"01:02:13",'off':'04:48:54','duration':'03:43:04'},
+    //      {'on':"01:02:13",'off':'04:48:54','duration':'03:43:04'},
+    //      {'on':"01:02:13",'off':'04:48:54','duration':'03:43:04'},
+    //      {'on':"01:02:13",'off':'04:48:54','duration':'03:43:04'},
+    //      {'on':"01:02:13",'off':'04:48:54','duration':'03:43:04'},
 
-    ];
+    // ];
     return SingleChildScrollView(
                    scrollDirection: Axis.vertical, 
 
@@ -122,21 +148,21 @@ class _PowerState extends State<Power> {
                     
                   },
                   children: [
-                    for (var item in list)
+                    for (var photo in photos)
                 
                 TableRow(children: [
                   SizedBox(
                      height: 30,
-                    child: Center(child: Text(item['on']!))
+                    child: Center(child: Text(photo.title))
                     ),
                   SizedBox(
                      height: 30,
                           
-                    child: Center(child: Text(item['off']!))),
+                    child: Center(child: Text(photo.albumId.toString()))),
                   SizedBox(
                     
                      height: 30,
-                    child: Center(child: Text(item['duration']!))),
+                    child: Center(child: Text(photo.id.toString()))),
                 ]),
                 
                   ],

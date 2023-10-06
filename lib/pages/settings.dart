@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
-import 'package:iot_console/Auth/login_page.dart';
+import 'package:iot_console/Auth/singin.dart';
 import 'package:iot_console/pages/Set_limits.dart';
 
 class Settings extends StatefulWidget {
@@ -160,7 +160,7 @@ class _SettingsState extends State<Settings> {
 
 
               onTap: () {
-                 Navigator.of(context).push(MaterialPageRoute(builder: (context)=>LoginPage(),),);
+                 Navigator.of(context).push(MaterialPageRoute(builder: (context)=>SingIN(),),);
                                                         
               },
             ),
