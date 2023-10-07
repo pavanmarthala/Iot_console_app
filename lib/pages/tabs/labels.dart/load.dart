@@ -3,9 +3,7 @@
 import 'package:flutter/material.dart';
 
 class Load extends StatefulWidget {
-  final void Function(Map<String, dynamic>) onDataUpdated; // Add this line
-
-   Load({Key? key, required this.onDataUpdated}): super(key: key);
+  
 
   @override
   State<Load> createState() => _LoadState();

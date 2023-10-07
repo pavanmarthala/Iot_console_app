@@ -1,55 +1,26 @@
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:iot_console/mock api/mock_api.dart';
-// import 'package:iot_console/models/Status_model.dart';
-// import 'package:iot_console/providers/app_provider.dart';
-// import 'package:provider/provider.dart';
+import 'package:provider/provider.dart';
 
-class Status extends StatefulWidget {
-  final Function(Map<String, dynamic> data)? onDataUpdated;
-  final _pageStorageKey = PageStorageKey('Status');
-
-  Status({required this.onDataUpdated, Key? key}) : super(key: key);
+class Dash extends StatefulWidget {
+  const Dash({super.key});
 
   @override
-  State<Status> createState() => _StatusState();
+  State<Dash> createState() => _DashState();
 }
 
-class _StatusState extends State<Status> {
+class _DashState extends State<Dash> {
   bool isSwitched = false;
   var time = DateTime.now();
-  bool isRefreshing = false;
-  Map<String, dynamic> statusData = {};
-
-  void handleRefresh() async {
-    setState(() {
-      isRefreshing = true;
-    });
-
-    final data = await MockApi.getStatusData(isSwitched); // Fetch mock data
-    // final statusProvider = Provider.of<StatusProvider>(context, listen: false);
-    // statusProvider.updateStatus(Statusmodel(
-    //   powerStatus: data['powerStatus'] ?? 'OFF',
-    //   motorStatus: data['motorStatus'] ?? 'OFF',
-    //   motorSwitch: data['motorSwitch'] ?? false,
-    // ));
-    // updatePowerData(data);
-    setState(() {
-      statusData = data;
-      isRefreshing = false;
-    });
-  }
-
-  void updatePowerData(Map<String, dynamic> data) {
-    // Pass the data to the Logs widget
-    widget.onDataUpdated?.call(data);
-  }
+  DateTime motorSwitch = DateTime.now();
+  DateTime motorStatus = DateTime.now(); 
+  DateTime powerStatus = DateTime.now(); 
 
   @override
   Widget build(BuildContext context) {
-    String powerStatus = statusData['powerStatus'] ?? 'OFF';
-    String motorStatus = statusData['motorStatus'] ?? 'OFF';
-    bool motorSwitch = statusData['motorSwitch'] ?? false;
+        final switchState = Provider.of<SwitchState>(context);
 
     return SingleChildScrollView(
       scrollDirection: Axis.vertical,
@@ -65,10 +36,8 @@ class _StatusState extends State<Status> {
                   style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                 ),
                 SizedBox(width: 150),
-                isRefreshing
-                    ? CircularProgressIndicator()
-                    : GestureDetector(
-                        onTap: handleRefresh, // Call handleRefresh when the icon is tapped
+                     GestureDetector(
+                        onTap: (){}, // Call handleRefresh when the icon is tapped
                         child: Icon(
                           Icons.refresh_sharp,
                           size: 35,
@@ -114,7 +83,7 @@ class _StatusState extends State<Status> {
                                           fontSize: 20),
                                   ),
                                   SizedBox(width: 120,),
-                                  Text(motorSwitch ? 'ON' : 'OFF',
+                                  Text(  switchState.isSwitched ? 'NO' : 'OFF',
                                       style: TextStyle(
                                           color: Colors.white,
                                           fontWeight: FontWeight.bold,
@@ -135,25 +104,27 @@ class _StatusState extends State<Status> {
                                 Padding(
                                   padding: const EdgeInsets.all(16.0),
                                   child: Switch(
-                                    key: widget._pageStorageKey,
-                                    value: isSwitched,
+                                   
                                     onChanged: (value) {
                                       setState(() {
+                                        switchState.toggleSwitch();
                                         isSwitched = value;
-                                        time = DateTime.now();
+                                        motorSwitch = DateTime.now();
+
+                                        
                                       });
                                     },
                                     activeTrackColor: Colors.green,
                                     activeColor: Colors.white,
                                     inactiveTrackColor: Colors.red,
-                                    inactiveThumbColor: Colors.white,
+                                    inactiveThumbColor: Colors.white, value: switchState.isSwitched, 
                                   ),
                                 ),
                                 SizedBox(width: 70),
                                 Padding(
                                   padding: const EdgeInsets.only(top: 30),
                                   child: Text(
-                                    'Last On : ${DateFormat('jms').format(time)}',
+                                    'Last On :${DateFormat('jms').format(motorSwitch)} ',
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 20,
@@ -211,7 +182,7 @@ class _StatusState extends State<Status> {
                                 ),
                                 SizedBox(width: 120,),
                                 Text(
-                                  '$powerStatus',
+                                  'on',
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,
@@ -235,7 +206,7 @@ class _StatusState extends State<Status> {
                             ),
                             SizedBox(width: 35,),
                             Text(
-                              'Last On : ${DateFormat('jms').format(time)}',
+                              'Last On : ${DateFormat('jms').format(time)} ',
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 20,
@@ -290,7 +261,7 @@ class _StatusState extends State<Status> {
                                 ),
                                 SizedBox(width: 120,),
                                 Text(
-                                  '$motorStatus',
+                                  'on',
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,
@@ -314,7 +285,7 @@ class _StatusState extends State<Status> {
                             ),
                             SizedBox(width: 35,),
                             Text(
-                              'Last On : ${DateFormat('jms').format(time)}',
+                              'Last On :${DateFormat('jms').format(time)}',
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 20,
@@ -333,5 +304,14 @@ class _StatusState extends State<Status> {
         ],
       ),
     );
+  }
+}
+
+class SwitchState extends ChangeNotifier {
+  bool isSwitched = false;
+
+  void toggleSwitch() {
+    isSwitched = !isSwitched;
+    notifyListeners();
   }
 }

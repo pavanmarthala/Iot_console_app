@@ -1,10 +1,11 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
-import 'package:iot_console/pages/Drawer.dart';
+import 'package:iot_console/pages/Drawer/Drawer.dart';
 import 'package:iot_console/pages/settings.dart';
 import 'package:iot_console/pages/tabs/Logs.dart';
-import 'package:iot_console/pages/tabs/status.dart';
+import 'package:iot_console/pages/tabs/dash.dart';
+// import 'package:iot_console/pages/tabs/status.dart';
 
 class Homepage extends StatefulWidget {
   const Homepage({super.key});
@@ -17,7 +18,7 @@ class _HomepageState extends State<Homepage> {
   int index =0;
    final screens = [
 
-   Status(onDataUpdated: (Map<String, dynamic> data) {  },),
+   Dash(),
      Logs(),
 
 

@@ -7,41 +7,35 @@ import 'dart:convert';
 import 'package:iot_console/providers/json.dart';
 
 class Power extends StatefulWidget {
-  final void Function(Map<String, dynamic>)? onDataUpdated; // Add this line
-
-  const Power({Key? key, required this.onDataUpdated}): super(key: key);
+  
   @override
   State<Power> createState() => _PowerState();
 }
 
 class _PowerState extends State<Power> {
-
+late Future<List<Photo>> futurePhotos;
   List<Photo> photos = [];
     bool isRefreshing = false;
 
  @override
   void initState() {
     super.initState();
-    fetchData();
+    futurePhotos = fetchData();
   }
 
-  Future<void> fetchData() async {
+  Future<List<Photo>> fetchData() async {
     final response = await http.get(Uri.parse('https://jsonplaceholder.typicode.com/photos'));
 
     if (response.statusCode == 200) {
       final List<dynamic> jsonList = json.decode(response.body);
-      photos = jsonList.map((json) => Photo.fromJson(json)).toList();
-      updateData();
+      return jsonList.map((json) => Photo.fromJson(json)).toList();
+      
     } else {
       throw Exception('Failed to load data');
     }
   }
 
-  void updateData() {
-    widget.onDataUpdated?.call({'photos': photos}); // Pass data to the parent widget
-    setState(() {}); // Trigger a UI update
-  }
-
+ 
 
    void handleRefresh() {
     setState(() {
@@ -74,7 +68,7 @@ class _PowerState extends State<Power> {
     //      {'on':"01:02:13",'off':'04:48:54','duration':'03:43:04'},
 
     // ];
-    return SingleChildScrollView(
+       return SingleChildScrollView(
                    scrollDirection: Axis.vertical, 
 
 
@@ -135,38 +129,45 @@ class _PowerState extends State<Power> {
                      ),
                  ),
                  SizedBox(height: 10,),
-              Table(
-                   border: TableBorder(
-                horizontalInside: BorderSide(color: Colors.grey), // Border for horizontal lines inside cells
-                // verticalInside: BorderSide(color: Colors.black),   // Border for vertical lines inside cells
-                bottom: BorderSide(color: Colors.grey),           // Border for the bottom of the table
-              ),
+                 
+              FutureBuilder<List<Photo>>(
+            future: futurePhotos,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return CircularProgressIndicator();
+              } else if (snapshot.hasError) {
+                return Text('Error: ${snapshot.error}');
+              } else {
+                List<Photo> photos = snapshot.data ?? [];
+                return Table(
+                  border: TableBorder(
+                    horizontalInside: BorderSide(color: Colors.grey),
+                    bottom: BorderSide(color: Colors.grey),
+                  ),
                   columnWidths: {
                     0: FixedColumnWidth(120),
                     1: FixedColumnWidth(120),
                     2: FixedColumnWidth(120),
-                    
                   },
                   children: [
                     for (var photo in photos)
-                
-                TableRow(children: [
-                  SizedBox(
-                     height: 30,
-                    child: Center(child: Text(photo.title))
-                    ),
-                  SizedBox(
-                     height: 30,
-                          
-                    child: Center(child: Text(photo.albumId.toString()))),
-                  SizedBox(
-                    
-                     height: 30,
-                    child: Center(child: Text(photo.id.toString()))),
-                ]),
-                
+                      TableRow(children: [
+                        SizedBox(
+                            height: 30,
+                            child: Center(child: Text(photo.id.toString()))),
+                        SizedBox(
+                            height: 30,
+                            child: Center(
+                                child: Text(photo.albumId.toString()))),
+                        SizedBox(
+                            height: 30,
+                            child: Center(child: Text(photo.id.toString()))),
+                      ]),
                   ],
-                ),
+                );
+              }
+            },
+          ),
     
                     SizedBox(height: 20,),
                     Padding(

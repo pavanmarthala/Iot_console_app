@@ -3,9 +3,7 @@
 import 'package:flutter/material.dart';
 
 class Motor extends StatefulWidget {
-  late final void Function(Map<String, dynamic>) onDataUpdated; // Add this line
 
-   Motor({Key? key, required this.onDataUpdated}): super(key: key);
   @override
   State<Motor> createState() => _PowerState();
 }
@@ -23,10 +21,7 @@ class _PowerState extends State<Motor> {
       });
     });
   }
-    void updateData(Map<String, dynamic> data) {
-  // Update the data in the Power tab
-  // Extract the ON, OFF, duration, and total duration data from 'data' and update your UI accordingly.
-}
+
   @override
   Widget build(BuildContext context) {
       var list = [

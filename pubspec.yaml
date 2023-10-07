@@ -40,6 +40,7 @@ dependencies:
   intl: ^0.18.1
   provider: ^6.0.5
   http: ^1.1.0
+  riverpod: ^2.4.3
 
 dev_dependencies:
   flutter_test:
@@ -57,9 +58,6 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
-  assets:
-    - assets/pngwing.png
-    - assets/motor.jpg
 
 
   # The following line ensures that the Material Icons font is
@@ -68,6 +66,9 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
+  assets:
+    - assets/logo.png
+    - assets/
 
   #   - images/a_dot_ham.jpeg
 

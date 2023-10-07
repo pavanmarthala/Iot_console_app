@@ -26,29 +26,7 @@ class _LogsState extends State<Logs>
    DateTime _dateTime = DateTime.now();
   late String _formattedDate = DateFormat('yyyy/MM/dd').format(_dateTime);
   
-    late Power powerTab;
-    late Motor motorTab; // Create an instance of the Power tab
-    late Load loadTab; // Create an instance of the Power tab
-     // Create an instance of the Power tab
 
-  // Method to pass data to the Power tab
-  void updatePowerTabData(Map<String, dynamic> data) {
-    tabController.index = 0; // Switch to the Power tab
-    // Call the method onDataUpdated in the Power widget to pass data
-    powerTab.onDataUpdated!(data);
-  }
-
-  void updateMotorTabData(Map<String, dynamic> data) {
-    tabController.index = 1; // Switch to the Motor tab
-    // Call the method onDataUpdated in the Motor widget to pass data
-    motorTab.onDataUpdated(data);
-  }
-
-  void updateLoadTabData(Map<String, dynamic> data) {
-    tabController.index = 2; // Switch to the Load tab
-    // Call the method onDataUpdated in the Load widget to pass data
-    loadTab.onDataUpdated(data);
-  }
   @override
  void initState() {
    tabController = TabController(length: 3, vsync: this);
@@ -82,11 +60,7 @@ void _showDatePicker() {
   });
 }
 
-// void passDataToLogs(Map<String, dynamic> data) {
-//   // Pass the data to the Power tab widget
-//   tabController.index = 0; // Switch to the Power tab
-//   powerTab.onDataUpdated(data);
-// }
+
 
   @override
   Widget build(BuildContext context) {
@@ -177,9 +151,9 @@ void _showDatePicker() {
             Expanded(child: TabBarView(
               controller: tabController,
               children: [
-              Power(onDataUpdated: updatePowerTabData),
-              Motor(onDataUpdated: updateMotorTabData),
-              Load(onDataUpdated: updateLoadTabData),
+              Power(),
+              Motor(),
+              Load(),
             ]) ,)
 
         ],
