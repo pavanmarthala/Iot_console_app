@@ -6,8 +6,6 @@ import 'package:intl/intl.dart';
 import 'package:iot_console/pages/tabs/labels.dart/load.dart';
 import 'package:iot_console/pages/tabs/labels.dart/motor.dart';
 import 'package:iot_console/pages/tabs/labels.dart/power.dart';
-import 'package:iot_console/providers/app_provider.dart';
-import 'package:provider/provider.dart';
 
 class Logs extends StatefulWidget {
   const Logs({super.key});
@@ -64,8 +62,7 @@ void _showDatePicker() {
 
   @override
   Widget build(BuildContext context) {
-     final statusProvider = Provider.of<StatusProvider>(context);
-    final statusData = statusProvider.statusData;
+    // final statusData = statusProvider.statusData;
     return Container(
       color:Color.fromARGB(255, 247, 242, 242),
       child: Column(

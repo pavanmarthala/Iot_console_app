@@ -1,11 +1,16 @@
+// ignore_for_file: prefer_const_constructors
+
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:iot_console/Auth/singin.dart';
+import 'package:iot_console/pages/Home_page.dart';
 import 'package:iot_console/pages/tabs/dash.dart';
-import 'package:iot_console/providers/app_provider.dart';
 import 'package:provider/provider.dart';
 
 
-void main() {
+void main()  {
+  // WidgetsFlutterBinding.ensureInitialized();
+  // await Firebase.initializeApp();
   runApp(ChangeNotifierProvider(
       create: (context) => SwitchState(),
       child: MyApp(),),);
@@ -16,26 +21,17 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider<StatusProvider>(
-      create: (context)=> StatusProvider(),
-      ),
-      
-
-      
-       ],
-      child: MaterialApp(
+    return  MaterialApp(
         debugShowCheckedModeBanner: false,
     
-        home:  SingIN(),
+        home:  Homepage(),
     
     
         theme: ThemeData(
     
             primarySwatch: Colors.green,
         ),
-      ),
-    );
+      );
+    
   }
 }

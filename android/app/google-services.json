@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "428004638388",
+    "project_id": "iot-console-app-bb4c9",
+    "storage_bucket": "iot-console-app-bb4c9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:428004638388:android:4e126764cdaeb42bb821e1",
+        "android_client_info": {
+          "package_name": "com.theja.iot_console"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB6MzbX2n1dNcbo4UsZgADAp15pfE5SP7s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

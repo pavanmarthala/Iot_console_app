@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_types_as_parameter_names, non_constant_identifier_names
 
 import 'package:flutter/material.dart';
 import 'package:iot_console/pages/Drawer/Drawer.dart';
@@ -17,20 +17,17 @@ class Homepage extends StatefulWidget {
 class _HomepageState extends State<Homepage> {
   int index =0;
    final screens = [
-
    Dash(),
-     Logs(),
-
-
-   
+   Logs(),
    ];
+
 
   @override
   Widget build(BuildContext context) {
 
     return  Scaffold(
        backgroundColor: const Color(0xffcbcbcb),
-       drawer: MyDrawer(),
+       drawer: MyDrawer(onDeviceAdded: (String ) {  }, deviceList: [],),
        appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.black),
          title: const Text("Dashboard", style: TextStyle(fontWeight: FontWeight.bold,fontSize: 25,color: Colors.black),),

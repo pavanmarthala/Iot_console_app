@@ -67,7 +67,7 @@ class _DashState extends State<Dash> {
                             height: 70,
                             width: 370,
                             decoration: BoxDecoration(
-                              color: Color.fromARGB(255, 192, 27, 16),
+                               color: switchState.isSwitched ?  Colors.green : Color.fromARGB(255, 192, 27, 16) ,
                               borderRadius: BorderRadius.only(
                                   topRight: Radius.circular(30),
                                   topLeft: Radius.circular(30)),

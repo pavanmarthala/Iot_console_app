@@ -146,8 +146,7 @@ class _SettingsState extends State<Settings> {
             ),
           SizedBox(height: 10,),
 
-            Container(
-               
+            Container( 
                        height: 1,
                        color: Colors.grey,
                      
